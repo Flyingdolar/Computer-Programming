@@ -49,7 +49,50 @@ int32_t abacus_set(sAbacus *ptrAbacus, char *strNumber) {
     return 0;
 };
 
-int32_t abacus_add(sAbacus *result, sAbacus origin, sAbacus add) {
+int32_t abacus_add(sAbacus *result, const sAbacus origin, const sAbacus add) {
+    int8_t overflow = 0;
+    int16_t rIndex, oIndex, aIndex;
+
+    if (result == NULL) return -1;
+    result->number = 20;
+    if (origin.number > add.number)
+        result->number = origin.number;
+    else
+        result->number = add.number;
+    if (origin.number == add.number) {
+        if (InttoChar(getRowNum(origin, 0)) + InttoChar(getRowNum(add, 0)) > 9)
+            result->number++;
+    }
+
+    result->pLowerRod = (uint8_t *)malloc(result->number * sizeof(uint8_t));
+    result->pUpperRod = (uint8_t *)malloc(result->number * sizeof(uint8_t));
+
+    for (int16_t index = 1; index <= result->number; index++) {
+        rIndex = result->number - index;
+        oIndex = origin.number - index;
+        aIndex = add.number - index;
+
+        result->pUpperRod[rIndex] = 0;
+        result->pLowerRod[rIndex] = overflow;
+        overflow = 0;
+
+        if (oIndex >= 0) {
+            result->pLowerRod[rIndex] += origin.pLowerRod[oIndex];
+            result->pUpperRod[rIndex] += origin.pUpperRod[oIndex];
+        }
+        if (aIndex >= 0) {
+            result->pLowerRod[rIndex] += add.pLowerRod[aIndex];
+            result->pUpperRod[rIndex] += add.pUpperRod[aIndex];
+        }
+        if (result->pLowerRod[rIndex] >= 5) {
+            result->pLowerRod[rIndex] %= 5;
+            result->pUpperRod[rIndex]++;
+        }
+        if (result->pUpperRod[rIndex] >= 2) {
+            result->pUpperRod[rIndex] %= 2;
+            overflow = 1;
+        }
+    }
     return 0;
 };
 
