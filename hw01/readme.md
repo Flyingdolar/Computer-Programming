@@ -1,3 +1,9 @@
+<style>
+table th:first-of-type {
+    width: 36px;
+}
+</style>
+
 # Homework 01 使用說明
 
 > 國立臺灣師範大學
