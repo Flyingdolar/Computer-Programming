@@ -141,6 +141,10 @@ int32_t strinsert(char **ppResult, const char *pStr1, int32_t location, const ch
 
 ### 三、Abacus 算盤模擬器
 
+<img src="Abacus.png" width="400"/>
+
+> 算盤顯示示意圖
+
 #### 程式主要功能（Main Function）
 
 1. 結構： **sAbucas**
