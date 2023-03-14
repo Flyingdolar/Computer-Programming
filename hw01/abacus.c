@@ -27,6 +27,22 @@ int16_t getRowNum(sAbacus Abacus, int16_t index) {
     return UpperRod * 5 + LowerRod;
 }
 
+int32_t abacus_max(const sAbacus *Abacus_A, const sAbacus *Abacus_B) {
+    if (Abacus_A->number > Abacus_B->number)
+        return 1;
+    else if ((Abacus_B->number > Abacus_A->number))
+        return -1;
+    else {
+        for (int index = 0; index < Abacus_A->number; index++) {
+            if (ChartoInt(getRowNum(*Abacus_A, index)) > ChartoInt(getRowNum(*Abacus_B, index)))
+                return 1;
+            else if (ChartoInt(getRowNum(*Abacus_B, index)) > ChartoInt(getRowNum(*Abacus_A, index)))
+                return -1;
+        }
+    }
+    return 0;
+}
+
 int32_t abacus_set(sAbacus *ptrAbacus, char *strNumber) {
     if (strlen(strNumber) > 255) return -1;
     ptrAbacus->number = strlen(strNumber);
@@ -55,7 +71,7 @@ int32_t abacus_add(sAbacus *result, const sAbacus origin, const sAbacus add) {
 
     if (result == NULL) return -1;
     result->number = 20;
-    if (origin.number > add.number)
+    if (abacus_max(&origin, &add) >= 0)
         result->number = origin.number;
     else
         result->number = add.number;
