@@ -59,20 +59,30 @@ int32_t abacus_del(sAbacus *result, sAbacus origin, sAbacus del) {
 
 int32_t abacus_print(sAbacus Abacus) {
     int16_t index = 0;
-    const char *printSpace = "  =     ";
+    const char *printSpace = "=  -     =";
+    const char *printDivide = "=||-|||||=";
+    const char *printBorder = "O||||||||O";
     const char *printNum[10] = {
-        "* = ****", "* =* ***", "* =** **", "* =*** *", "* =**** ",
-        " *= ****", " *=* ***", " *=** **", " *=*** *", " *=**** "};
+        "=* - ****=", "=* -* ***=", "=* -** **=", "=* -*** *=", "=* -**** =",
+        "= *- ****=", "= *-* ***=", "= *-** **=", "= *-*** *=", "= *-**** ="};
 
-    for (int pos = 0; pos < 8; pos++) {
+    for (int pos = 0; pos < 10; pos++) {
         for (int index = 0; index < Abacus.number; index++) {
+            if (index == 0) printf("%c", printBorder[pos]);
+            if (index > 0) printf("%c", printDivide[pos]);
             printf("%c", printSpace[pos]);
+            if (pos && pos < 3) printf("\033[;31;1m");
+            if (pos > 3 && pos < 9) printf("\033[;33;1m");
             int16_t value = getRowNum(Abacus, index);
             if (value < 0) return -1;
             printf("%c", printNum[value][pos]);
+            printf("\033[0m");
+            printf("%c", printSpace[pos]);
+            if (index == Abacus.number - 1) printf("%c", printBorder[pos]);
         }
         printf("\n");
     }
+    printf("\033[0m");
     return 0;
 }
 
