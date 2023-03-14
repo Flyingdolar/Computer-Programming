@@ -1,8 +1,9 @@
 all:
-	gcc hw01.c mystring.c -lm -o hw01
-	gcc hw02.c insert.c -lm -o hw02
-	gcc hw03.c abacus.c -lm -o hw03
+	gcc hw0101.c mystring.c -lm -o hw0101
+	gcc hw0102.c insert.c -lm -o hw0102
+	gcc hw0103.c abacus.c -lm -o hw0103
 
 clean:
-	rm hw01
-	rm hw02
+	rm hw0101
+	rm hw0102
+	rm hw0103
