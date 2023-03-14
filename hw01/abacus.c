@@ -43,8 +43,8 @@ int32_t abacus_max(const sAbacus *Abacus_A, const sAbacus *Abacus_B) {
     return 0;
 }
 
-int32_t abacus_set(sAbacus *ptrAbacus, char *strNumber) {
-    if (strlen(strNumber) > 255) return -1;
+int32_t abacus_set(sAbacus *ptrAbacus, const char *strNumber) {
+    if (strlen(strNumber) <= 0 || strlen(strNumber) > 255) return -1;
     ptrAbacus->number = strlen(strNumber);
     ptrAbacus->pUpperRod = (uint8_t *)malloc(ptrAbacus->number * sizeof(uint8_t));
     ptrAbacus->pLowerRod = (uint8_t *)malloc(ptrAbacus->number * sizeof(uint8_t));
