@@ -4,8 +4,8 @@
 
 int main() {
     char *str;
-    char *numOne = "10f23";
-    char *numTwo = "20000";
+    char *numOne = "ty";
+    char *numTwo = "hui";
     int rec = 0;
 
     sAbacus abaOne, abaTwo, res;
