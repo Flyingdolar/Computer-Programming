@@ -34,9 +34,9 @@ int32_t abacus_max(const sAbacus *Abacus_A, const sAbacus *Abacus_B) {
         return -1;
     else {
         for (int index = 0; index < Abacus_A->number; index++) {
-            if (ChartoInt(getRowNum(*Abacus_A, index)) > ChartoInt(getRowNum(*Abacus_B, index)))
+            if (getRowNum(*Abacus_A, index) > getRowNum(*Abacus_B, index))
                 return 1;
-            else if (ChartoInt(getRowNum(*Abacus_B, index)) > ChartoInt(getRowNum(*Abacus_A, index)))
+            else if (getRowNum(*Abacus_B, index) > getRowNum(*Abacus_A, index))
                 return -1;
         }
     }
@@ -76,8 +76,14 @@ int32_t abacus_add(sAbacus *result, const sAbacus origin, const sAbacus add) {
     else
         result->number = add.number;
     if (origin.number == add.number) {
-        if (InttoChar(getRowNum(origin, 0)) + InttoChar(getRowNum(add, 0)) > 9)
+        for (int index = origin.number; index > 0; index--) {
+            overflow = (overflow + getRowNum(origin, index) + getRowNum(add, index)) / 10;
+        }
+
+        if (overflow == 1) {
             result->number++;
+            overflow = 0;
+        }
     }
 
     result->pLowerRod = (uint8_t *)malloc(result->number * sizeof(uint8_t));
@@ -112,11 +118,11 @@ int32_t abacus_add(sAbacus *result, const sAbacus origin, const sAbacus add) {
     return 0;
 };
 
-int32_t abacus_del(sAbacus *result, sAbacus origin, sAbacus del) {
+int32_t abacus_del(sAbacus *result, const sAbacus origin, const sAbacus del) {
     return 0;
 };
 
-int32_t abacus_print(sAbacus Abacus) {
+int32_t abacus_print(const sAbacus Abacus) {
     int16_t index = 0;
     const char *printSpace = "=  -     =";
     const char *printDivide = "=||-|||||=";
@@ -145,7 +151,7 @@ int32_t abacus_print(sAbacus Abacus) {
     return 0;
 }
 
-char *abacus_getNumber(sAbacus Abacus) {
+char *abacus_getNumber(const sAbacus Abacus) {
     char *string = (char *)malloc((Abacus.number + 1) * sizeof(char));
     for (int index = 0; index < Abacus.number; index++) {
         string[index] = InttoChar(getRowNum(Abacus, index));
