@@ -70,12 +70,16 @@ int32_t abacus_add(sAbacus *result, const sAbacus origin, const sAbacus add) {
     int8_t overflow = 0;
     int16_t rIndex, oIndex, aIndex;
 
-    if (result == NULL) return -1;
-    result->number = 20;
+    if (result == NULL) return -1;  // Debug: 偵測輸出算盤是否為未定義記憶體空間
+    // Debug: 確認首位數字非 0，輸入欄數符合內容
+    if (getRowNum(origin, 0) == -1) return -1;
+    if (getRowNum(add, 0) == -1) return -1;
+
     if (abacus_max(&origin, &add) >= 0)
         result->number = origin.number;
     else
         result->number = add.number;
+
     if (origin.number == add.number) {
         for (int index = origin.number; index > 0; index--) {
             overflow = (overflow + getRowNum(origin, index) + getRowNum(add, index)) / 10;
@@ -98,6 +102,10 @@ int32_t abacus_add(sAbacus *result, const sAbacus origin, const sAbacus add) {
         result->pUpperRod[rIndex] = 0;
         result->pLowerRod[rIndex] = overflow;
         overflow = 0;
+
+        // Debug: 偵測有無不合法算盤內容
+        if (getRowNum(origin, oIndex) == -1) return -1;
+        if (getRowNum(add, aIndex) == -1) return -1;
 
         if (oIndex >= 0) {
             result->pLowerRod[rIndex] += origin.pLowerRod[oIndex];
