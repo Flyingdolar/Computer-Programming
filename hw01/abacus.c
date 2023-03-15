@@ -46,6 +46,8 @@ int32_t abacus_max(const sAbacus *Abacus_A, const sAbacus *Abacus_B) {
 int32_t abacus_set(sAbacus *ptrAbacus, const char *strNumber) {
     // Debug: 偵測長度錯誤
     if (strlen(strNumber) <= 0 || strlen(strNumber) > 255) return -1;
+
+    // 設定算盤長度
     ptrAbacus->number = strlen(strNumber);
     ptrAbacus->pUpperRod = (uint8_t *)malloc(ptrAbacus->number * sizeof(uint8_t));
     ptrAbacus->pLowerRod = (uint8_t *)malloc(ptrAbacus->number * sizeof(uint8_t));
@@ -75,16 +77,16 @@ int32_t abacus_add(sAbacus *result, const sAbacus origin, const sAbacus add) {
     if (getRowNum(origin, 0) == -1) return -1;
     if (getRowNum(add, 0) == -1) return -1;
 
+    // 設定 result 算盤長度
     if (abacus_max(&origin, &add) >= 0)
         result->number = origin.number;
     else
         result->number = add.number;
 
+    // 判斷算盤是否為溢位（增加一位數）
     if (origin.number == add.number) {
-        for (int index = origin.number; index > 0; index--) {
+        for (int index = origin.number; index > 0; index--)
             overflow = (overflow + getRowNum(origin, index) + getRowNum(add, index)) / 10;
-        }
-
         if (overflow == 1) {
             result->number++;
             overflow = 0;
@@ -133,6 +135,7 @@ int32_t abacus_del(sAbacus *result, const sAbacus origin, const sAbacus del) {
 
 int32_t abacus_print(const sAbacus Abacus) {
     int16_t index = 0;
+    // 設定好每列（直排）算盤的內容
     const char *printSpace = "=  -     =";
     const char *printDivide = "=||-|||||=";
     const char *printBorder = "O||||||||O";
@@ -142,15 +145,24 @@ int32_t abacus_print(const sAbacus Abacus) {
 
     for (int pos = 0; pos < 10; pos++) {
         for (int index = 0; index < Abacus.number; index++) {
+            // print 算盤外觀
             if (index == 0) printf("%c", printBorder[pos]);
             if (index > 0) printf("%c", printDivide[pos]);
             printf("%c", printSpace[pos]);
+
+            // 調整顏色
             if (pos && pos < 3) printf("\033[;31;1m");
             if (pos > 3 && pos < 9) printf("\033[;33;1m");
+
+            // print 算盤內容
             int16_t value = getRowNum(Abacus, index);
             if (value < 0) return -1;
             printf("%c", printNum[value][pos]);
+
+            // 調整顏色
             printf("\033[0m");
+
+            // print 算盤外觀
             printf("%c", printSpace[pos]);
             if (index == Abacus.number - 1) printf("%c", printBorder[pos]);
         }
@@ -162,7 +174,9 @@ int32_t abacus_print(const sAbacus Abacus) {
 
 char *abacus_getNumber(const sAbacus Abacus) {
     char *string = (char *)malloc((Abacus.number + 1) * sizeof(char));
+
     for (int index = 0; index < Abacus.number; index++) {
+        // 將每列算盤內容：取值、轉換為文字
         string[index] = InttoChar(getRowNum(Abacus, index));
         if (string[index] == '\0') return NULL;
     }
