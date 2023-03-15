@@ -1,10 +1,6 @@
-<style>
-table th:first-of-type {
-    width: 36px;
-}
-</style>
-
 # Homework 01 使用說明
+
+[![link](https://img.shields.io/badge/回首頁-eee.svg?style=for-the-badge&logo=data%3Aimage%2Fsvg%2Bxml%3Bbase64%2CPD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz48IS0tIFVwbG9hZGVkIHRvOiBTVkcgUmVwbywgd3d3LnN2Z3JlcG8uY29tLCBHZW5lcmF0b3I6IFNWRyBSZXBvIE1peGVyIFRvb2xzIC0tPg0KPHN2ZyB3aWR0aD0iODAwcHgiIGhlaWdodD0iODAwcHgiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4NCjxwYXRoIGQ9Ik0xOSA3LjkwNjM3VjE4QzE5IDE5LjEwNDYgMTguMTA0NiAyMCAxNyAyMEg3QzUuODk1NDMgMjAgNSAxOS4xMDQ2IDUgMThWNy45MDYzN00yIDEwLjAwMDFMMTAuODUzMSAzLjgwMjk3QzExLjU0MTcgMy4zMjA5MiAxMi40NTgzIDMuMzIwOTIgMTMuMTQ2OSAzLjgwMjk3TDIyIDEwLjAwMDEiIHN0cm9rZT0iIzAwMDAwMCIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz4NCjwvc3ZnPg==)](../readme.md)
 
 > 國立臺灣師範大學
 > 設計學系四年級
@@ -32,13 +28,11 @@ table th:first-of-type {
 2. 用 `cd` 切換目錄至 `40768033T` 的資料夾下
 3. 在此下 `make clean` 的指令
 
----
-
 ## 程式碼的內容與功能
 
 ### 一、我的 String 函式庫（基本上功能與 `string.h` 的內容相同）
 
-    相關程式碼： mystring.h, mystring.c, hw01.c
+> 相關程式碼： mystring.h, mystring.c, hw01.c
 
 #### 1. Find Character in String
 
@@ -126,7 +120,7 @@ char *mystrtok(char *string, const char *delimiter)
 
 ### 二、String Insert 功能
 
-    相關程式碼： insert.h, insert.c, hw02.c
+> 相關程式碼： insert.h, insert.c, hw02.c
 
 #### 函式內容
 
@@ -197,9 +191,17 @@ int32_t strinsert(char **ppResult, const char *pStr1, int32_t location, const ch
 
 #### 程式內部函式（Internal Function）
 
----
-
 ## 開發日誌
 
 - 2023/03/13 完成「 一、我的 String 函式庫 」
 - 2023/03/14 完成「 二、String Insert 功能 」
+
+---
+
+![Tools](https://img.shields.io/badge/Made_with-fff?style=for-the-badge)
+![c](https://img.shields.io/badge/C-02599C?style=for-the-badge&logo=c&logoColor=white)
+![markdown](https://img.shields.io/badge/Markdown-333?style=for-the-badge&logo=markdown)
+
+![Env](https://img.shields.io/badge/Environm.-fff?style=for-the-badge)
+![macbook](https://img.shields.io/badge/MacOS-999999?style=for-the-badge&logo=apple)
+![vscode](https://img.shields.io/badge/Visual_Studio_Code-0078D4?style=for-the-badge&logo=visual%20studio%20code)
