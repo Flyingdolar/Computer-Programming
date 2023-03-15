@@ -101,6 +101,7 @@ int32_t abacus_add(sAbacus *result, const sAbacus origin, const sAbacus add) {
         oIndex = origin.number - index;
         aIndex = add.number - index;
 
+        // 設定每行算盤的初始值
         result->pUpperRod[rIndex] = 0;
         result->pLowerRod[rIndex] = overflow;
         overflow = 0;
@@ -109,6 +110,7 @@ int32_t abacus_add(sAbacus *result, const sAbacus origin, const sAbacus add) {
         if (getRowNum(origin, oIndex) == -1) return -1;
         if (getRowNum(add, aIndex) == -1) return -1;
 
+        // 填入內容與記錄進位
         if (oIndex >= 0) {
             result->pLowerRod[rIndex] += origin.pLowerRod[oIndex];
             result->pUpperRod[rIndex] += origin.pUpperRod[oIndex];
