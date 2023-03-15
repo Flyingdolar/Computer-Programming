@@ -4,8 +4,8 @@
 
 int main() {
     char *str;
-    char *numOne = "55555555";
-    char *numTwo = "4444a445";
+    char *numOne = "ty";
+    char *numTwo = "hui";
     int rec = 0;
 
     sAbacus abaOne, abaTwo, res;
@@ -24,7 +24,6 @@ int main() {
 
     rec = abacus_add(&res, abaOne, abaTwo);
     printf("rec = %d\n", rec);
-    printf("Hello World\n");
 
     rec = abacus_print(res);
     printf("rec = %d\n", rec);

@@ -10,7 +10,7 @@ typedef struct _sAbacus {
 } sAbacus;
 
 int16_t ChartoInt(char letter) {
-    if (letter <= '0' && letter >= '9') return -1;
+    if (letter <= '0' || letter >= '9') return -1;
     return letter - '0';
 }
 
@@ -44,6 +44,7 @@ int32_t abacus_max(const sAbacus *Abacus_A, const sAbacus *Abacus_B) {
 }
 
 int32_t abacus_set(sAbacus *ptrAbacus, const char *strNumber) {
+    // Debug: 偵測長度錯誤
     if (strlen(strNumber) <= 0 || strlen(strNumber) > 255) return -1;
     ptrAbacus->number = strlen(strNumber);
     ptrAbacus->pUpperRod = (uint8_t *)malloc(ptrAbacus->number * sizeof(uint8_t));
@@ -51,7 +52,7 @@ int32_t abacus_set(sAbacus *ptrAbacus, const char *strNumber) {
 
     for (int16_t index = 0; index < ptrAbacus->number; index++) {
         int16_t num = ChartoInt(strNumber[index]);
-        if (num < 0)
+        if (num < 0)  // Debug: 偵測字串是否為 0-9 的數字
             return -1;
         else if (num > 4) {
             num -= 5;
