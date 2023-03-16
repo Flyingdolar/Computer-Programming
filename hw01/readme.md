@@ -1,11 +1,12 @@
-# Homework 01 使用說明
+# Homework 01
+
+```txt
+國立臺灣師範大學 設計學系四年級 鄭翔元 40768033T
+```
 
 [![link](https://img.shields.io/badge/回首頁-eee.svg?style=for-the-badge&logo=data%3Aimage%2Fsvg%2Bxml%3Bbase64%2CPD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz48IS0tIFVwbG9hZGVkIHRvOiBTVkcgUmVwbywgd3d3LnN2Z3JlcG8uY29tLCBHZW5lcmF0b3I6IFNWRyBSZXBvIE1peGVyIFRvb2xzIC0tPg0KPHN2ZyB3aWR0aD0iODAwcHgiIGhlaWdodD0iODAwcHgiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4NCjxwYXRoIGQ9Ik0xOSA3LjkwNjM3VjE4QzE5IDE5LjEwNDYgMTguMTA0NiAyMCAxNyAyMEg3QzUuODk1NDMgMjAgNSAxOS4xMDQ2IDUgMThWNy45MDYzN00yIDEwLjAwMDFMMTAuODUzMSAzLjgwMjk3QzExLjU0MTcgMy4zMjA5MiAxMi40NTgzIDMuMzIwOTIgMTMuMTQ2OSAzLjgwMjk3TDIyIDEwLjAwMDEiIHN0cm9rZT0iIzAwMDAwMCIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz4NCjwvc3ZnPg==)](../readme.md)
-
-> 國立臺灣師範大學
-> 設計學系四年級
-> 鄭翔元
-> 40768033T
+![Tools](https://img.shields.io/badge/日期-03.08_~_03.22-lightblue?style=for-the-badge&labelColor=5588aa)
+![Sub](https://img.shields.io/badge/主題-String,_Struct-ffddaa?style=for-the-badge&labelColor=c97555)
 
 ## 如何建立此檔案？
 
