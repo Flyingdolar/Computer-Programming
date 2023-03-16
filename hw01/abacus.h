@@ -14,12 +14,12 @@ sAbacus *abacus_init(void);
 
 void abacus_free(sAbacus *Abacus);
 
-int32_t abacus_set(sAbacus *ptrAbacus, const char *strNumber);
+char *abacus_str(sAbacus sA);
 
-int32_t abacus_add(sAbacus *result, const sAbacus origin, const sAbacus add);
+int32_t abacus_set(sAbacus *pA, const char *str);
 
-int32_t abacus_del(sAbacus *result, const sAbacus origin, const sAbacus del);
+int32_t abacus_add(sAbacus *res, sAbacus sA_1, sAbacus sA_2);
 
-int32_t abacus_print(const sAbacus Abacus);
+int32_t abacus_del(sAbacus *res, sAbacus sA_1, sAbacus sA_2);
 
-char *abacus_str(const sAbacus Abacus);
+int32_t abacus_print(sAbacus sA);

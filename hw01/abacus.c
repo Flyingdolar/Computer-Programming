@@ -154,16 +154,10 @@ int32_t abacus_add(sAbacus *res, sAbacus sA_1, sAbacus sA_2) {
     return 0;
 };
 
-int32_t abacus_del(sAbacus *result, const sAbacus origin, const sAbacus del) {
-    // int8_t isBigger = abacus_max(&origin, &del);
-    // if (isBigger < 0) return -1;  // 偵錯： result value < 0
-    // if (isBigger == 0) {
-    //     result->number = 0;
-    //     newUINT8Arrary(&(result->pUpperRod), 1);
-    //     newUINT8Arrary(&(result->pLowerRod), 1);
-    //     result->pLowerRod[0] = 0;
-    //     result->pUpperRod[0] = 0;
-    // }
+int32_t abacus_del(sAbacus *res, sAbacus sA_1, sAbacus sA_2) {
+    sAbacus *pA_1 = &sA_1, *pA_2 = &sA_2;
+    if (abacus_sort(&pA_1, &pA_2)) return abacus_set(res, "0");
+    if (pA_1 != &sA_1 || pA_2 != &sA_2) return -1;  // Detect wheter A1 is bigger than A2 ?
     return 0;
 };
 
