@@ -1,15 +1,28 @@
 #include <stdint.h>
 #include <stdio.h>
-#include <stdlib.h>
 
 #include "insert.h"
 
 int main() {
-    char *string = "hello world";
-    char *insert = "big";
-    char *result;
+    char *result = NULL;
+    int32_t location = 1;
 
-    strinsert(&result, string, 5, insert);
-    printf("%s\n", result);
+    strinsert(&result, "Hello", location, "ABC");
+    printf("Expected output: HABCello\n");
+    printf("  Actual output: %s\n\n", result);
+    free(result);
+
+    location = 0;
+    strinsert(&result, "World", location, "123");
+    printf("Expected output: 123World\n");
+    printf("  Actual output: %s\n\n", result);
+    free(result);
+
+    location = 5;
+    strinsert(&result, "Testing", location, "1234");
+    printf("Expected output: Testi1234ng\n");
+    printf("  Actual output: %s\n\n", result);
+    free(result);
+
     return 0;
 }
