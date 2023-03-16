@@ -3,30 +3,51 @@
 #include "abacus.h"
 
 int main() {
-    char *str;
-    char *numOne = "ty";
-    char *numTwo = "hui";
-    int rec = 0;
+    // Initialize abacus, abacus2, abacus3
+    sAbacus *abacus = abacus_init();
+    sAbacus *abacus2 = abacus_init();
+    sAbacus *abacus3 = abacus_init();
 
-    sAbacus abaOne, abaTwo, res;
+    // Set the values of abacus and abacus2 to "1234" and "5678"
+    if (abacus_set(abacus, "1234") != 0) {
+        printf("Error: Set operation failed\n");
+        return -1;
+    }
+    if (abacus_set(abacus2, "5555") != 0) {
+        printf("Error: Set operation failed\n");
+        return -1;
+    }
 
-    rec = abacus_set(&abaOne, numOne);
-    printf("rec = %d\n", rec);
-    rec = abacus_set(&abaTwo, numTwo);
-    printf("rec = %d\n", rec);
+    // Add abacus and abacus2, store result in abacus3
+    if (abacus_add(abacus3, *abacus, *abacus2) != 0) {
+        printf("Error: Add operation failed\n");
+        return -1;
+    }
 
-    rec = abacus_print(abaOne);
-    printf("rec = %d\n", rec);
-    printf("%s\n", abacus_getNumber(abaOne));
-    rec = abacus_print(abaTwo);
-    printf("rec = %d\n", rec);
-    printf("%s\n", abacus_getNumber(abaTwo));
+    // Print abacus3
+    printf("\nAbacus 加法計算結果 = %s\n", abacus_str(*abacus3));
+    if (abacus_print(*abacus3) != 0) {
+        printf("Error: Print operation failed\n");
+        return -1;
+    }
 
-    rec = abacus_add(&res, abaOne, abaTwo);
-    printf("rec = %d\n", rec);
+    // Subtract abacus from abacus2, store result in abacus3
+    if (abacus_del(abacus3, *abacus2, *abacus) != 0) {
+        printf("Error: Del operation failed\n");
+        return -1;
+    }
 
-    rec = abacus_print(res);
-    printf("rec = %d\n", rec);
-    printf("%s\n", abacus_getNumber(res));
+    // Print abacus3
+    printf("\nAbacus 減法計算結果 = %s\n", abacus_str(*abacus3));
+    if (abacus_print(*abacus3) != 0) {
+        printf("Error: Print operation failed\n");
+        return -1;
+    }
+
+    // Free memory
+    abacus_free(abacus);
+    abacus_free(abacus2);
+    abacus_free(abacus3);
+
     return 0;
 }
