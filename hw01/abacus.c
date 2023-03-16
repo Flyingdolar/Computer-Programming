@@ -9,6 +9,23 @@ typedef struct _sAbacus {
     uint8_t *pLowerRod;
 } sAbacus;
 
+sAbacus *abacus_init(void) {
+    sAbacus *new = (sAbacus *)malloc(sizeof(sAbacus));
+    return new;
+}
+
+void abacus_free(sAbacus *Abacus) {
+    if (Abacus) free(Abacus);
+    return;
+}
+
+void newUINT8Arrary(uint8_t **arrPtr, int opSize) {
+    if (!arrPtr) return;
+    if (*arrPtr) free(*arrPtr);
+    *arrPtr = (uint8_t *)malloc(opSize * sizeof(uint8_t));
+    return;
+};
+
 int16_t ChartoInt(char letter) {
     if (letter <= '0' || letter >= '9') return -1;
     return letter - '0';
@@ -49,8 +66,8 @@ int32_t abacus_set(sAbacus *ptrAbacus, const char *strNumber) {
 
     // 設定算盤長度
     ptrAbacus->number = strlen(strNumber);
-    ptrAbacus->pUpperRod = (uint8_t *)malloc(ptrAbacus->number * sizeof(uint8_t));
-    ptrAbacus->pLowerRod = (uint8_t *)malloc(ptrAbacus->number * sizeof(uint8_t));
+    newUINT8Arrary(&(ptrAbacus->pUpperRod), ptrAbacus->number);
+    newUINT8Arrary(&(ptrAbacus->pLowerRod), ptrAbacus->number);
 
     for (int16_t index = 0; index < ptrAbacus->number; index++) {
         int16_t num = ChartoInt(strNumber[index]);
@@ -93,8 +110,8 @@ int32_t abacus_add(sAbacus *result, const sAbacus origin, const sAbacus add) {
         }
     }
 
-    result->pLowerRod = (uint8_t *)malloc(result->number * sizeof(uint8_t));
-    result->pUpperRod = (uint8_t *)malloc(result->number * sizeof(uint8_t));
+    newUINT8Arrary(&(result->pLowerRod), result->number);
+    newUINT8Arrary(&(result->pUpperRod), result->number);
 
     for (int16_t index = 1; index <= result->number; index++) {
         rIndex = result->number - index;
@@ -132,12 +149,20 @@ int32_t abacus_add(sAbacus *result, const sAbacus origin, const sAbacus add) {
 };
 
 int32_t abacus_del(sAbacus *result, const sAbacus origin, const sAbacus del) {
+    // int8_t isBigger = abacus_max(&origin, &del);
+    // if (isBigger < 0) return -1;  // 偵錯： result value < 0
+    // if (isBigger == 0) {
+    //     result->number = 0;
+    //     newUINT8Arrary(&(result->pUpperRod), 1);
+    //     newUINT8Arrary(&(result->pLowerRod), 1);
+    //     result->pLowerRod[0] = 0;
+    //     result->pUpperRod[0] = 0;
+    // }
     return 0;
 };
 
 int32_t abacus_print(const sAbacus Abacus) {
     int16_t index = 0;
-    // 設定好每列（直排）算盤的內容
     const char *printSpace = "=  -     =";
     const char *printDivide = "=||-|||||=";
     const char *printBorder = "O||||||||O";
@@ -151,19 +176,15 @@ int32_t abacus_print(const sAbacus Abacus) {
             if (index == 0) printf("%c", printBorder[pos]);
             if (index > 0) printf("%c", printDivide[pos]);
             printf("%c", printSpace[pos]);
-
             // 調整顏色
             if (pos && pos < 3) printf("\033[;31;1m");
             if (pos > 3 && pos < 9) printf("\033[;33;1m");
-
             // print 算盤內容
             int16_t value = getRowNum(Abacus, index);
             if (value < 0) return -1;
             printf("%c", printNum[value][pos]);
-
             // 調整顏色
             printf("\033[0m");
-
             // print 算盤外觀
             printf("%c", printSpace[pos]);
             if (index == Abacus.number - 1) printf("%c", printBorder[pos]);
@@ -174,7 +195,7 @@ int32_t abacus_print(const sAbacus Abacus) {
     return 0;
 }
 
-char *abacus_getNumber(const sAbacus Abacus) {
+char *abacus_str(const sAbacus Abacus) {
     char *string = (char *)malloc((Abacus.number + 1) * sizeof(char));
 
     for (int index = 0; index < Abacus.number; index++) {
