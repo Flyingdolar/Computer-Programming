@@ -73,7 +73,7 @@ int8_t abacus_sort(sAbacus **ppA_bg, sAbacus **ppA_sm) {
 
     for (int idx = 0; idx < pA->number; idx++) {
         A1_col = abacus_col(**ppA_bg, idx);
-        A2_col = abacus_col(**ppA_bg, idx);
+        A2_col = abacus_col(**ppA_sm, idx);
 
         if (A1_col > A2_col) return 0;
         if (A2_col > A1_col) {
@@ -82,7 +82,6 @@ int8_t abacus_sort(sAbacus **ppA_bg, sAbacus **ppA_sm) {
             return 0;
         }
     }
-
     return 1;
 }
 
@@ -141,25 +140,44 @@ int32_t abacus_add(sAbacus *res, sAbacus sA_1, sAbacus sA_2) {
     for (uint8_t idx = 1; idx <= pA_bg->number; idx++) {
         int16_t iB = pA_bg->number - idx;
         int16_t iS = pA_sm->number - idx;
-        if (iS >= 0) {
-            sum = to_int(bgStr[iB]) + to_int(smStr[iS]) + cary;
-            cary = sum / 10;
-            sum = sum % 10;
-        }
+
+        sum = to_int(bgStr[iB]) + cary;
+        if (iS >= 0) sum += to_int(smStr[iS]);
+        cary = sum / 10;
+        sum = sum % 10;
+
         letr[0] = to_char(sum);
         strinsert(&reStr, reStr, 0, letr);
     }
     if (cary) strinsert(&reStr, reStr, 0, "1");
     abacus_set(res, reStr);
+
     return 0;
 };
 
 int32_t abacus_del(sAbacus *res, sAbacus sA_1, sAbacus sA_2) {
-    sAbacus *pA_1 = &sA_1, *pA_2 = &sA_2;
-    if (abacus_sort(&pA_1, &pA_2)) return abacus_set(res, "0");
-    if (pA_1 != &sA_1 || pA_2 != &sA_2) return -1;  // Detect wheter A1 is bigger than A2 ?
+    sAbacus *pA_bg = &sA_1, *pA_sm = &sA_2;
+    if (abacus_sort(&pA_bg, &pA_sm)) return abacus_set(res, "0");
+    if (pA_bg != &sA_1 || pA_sm != &sA_2) return -1;  // Detect wheter A1 is bigger than A2 ?
+    char *bgStr = abacus_str(*pA_bg), *smStr = abacus_str(*pA_sm);
+    char letr[2] = {0}, *reStr = (char *)malloc(sizeof(char));
+
+    int16_t sum, brow = 0;
+    for (uint8_t idx = 1; idx <= pA_bg->number; idx++) {
+        int16_t iB = pA_bg->number - idx;
+        int16_t iS = pA_sm->number - idx;
+
+        sum = to_int(bgStr[iB]) - brow;
+        brow = 0;
+        if (iS >= 0) sum -= to_int(smStr[iS]);
+        if (sum < 0) brow = 1, sum += 10;
+        letr[0] = to_char(sum);
+        strinsert(&reStr, reStr, 0, letr);
+    }
+    while (*reStr == '0') reStr++;
+    abacus_set(res, reStr);
     return 0;
-};
+}
 
 int32_t abacus_print(const sAbacus Abacus) {
     int16_t index = 0;
