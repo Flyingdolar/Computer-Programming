@@ -165,7 +165,7 @@ struct Potato *subarya_produce_potato(const struct PotatoProducer *this) {
     if (!this) return NULL;
     struct Potato *ptProduce = (struct Potato *)malloc(sizeof(struct Potato));
     ptProduce->producer_name = this->name;
-    ptProduce->weight = 0;  // TODO: Should be Random
+    ptProduce->weight = rand() % 1000;
     ptProduce->fry = fry_potato_ball;
     ptProduce->print = print_potato;
 
@@ -175,10 +175,10 @@ struct Potato *subarya_produce_potato(const struct PotatoProducer *this) {
 struct Potato *smallten_summon_potato(const struct PotatoProducer *this) {
     if (!this) return NULL;
     struct MagicalPotato *ptSummon = (struct MagicalPotato *)malloc(sizeof(struct MagicalPotato));
-    ptSummon->effect = EFF_Haste;  // TODO: Should be Random
-    ptSummon->effect_level = 2;    // TODO: Should be Random
+    ptSummon->effect = rand() % 4;
+    ptSummon->effect_level = rand() % 100;
     ptSummon->base.producer_name = this->name;
-    ptSummon->base.weight = 0;  // TODO: Should be Random
+    ptSummon->base.weight = rand() % 1000;
     ptSummon->base.fry = fry_magical_potato_ball;
     ptSummon->base.print = print_magical_potato;
 
