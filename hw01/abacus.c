@@ -21,17 +21,17 @@ char to_char(int16_t val) {
     return val + '0';
 }
 
-uint8_t *u8t_init(int16_t cNum) {
-    uint8_t *new = (uint8_t *)malloc(cNum * sizeof(uint8_t));
-    return new;
-}
-
 sAbacus *abacus_init(void) {
     sAbacus *new = (sAbacus *)malloc(sizeof(sAbacus));
+    new->pLowerRod = (uint8_t *)malloc(sizeof(uint8_t));
+    new->pUpperRod = (uint8_t *)malloc(sizeof(uint8_t));
+    new->number = 0;
     return new;
 }
 
 void abacus_free(sAbacus *Abacus) {
+    if (Abacus->pLowerRod) free(Abacus->pLowerRod);
+    if (Abacus->pUpperRod) free(Abacus->pUpperRod);
     if (Abacus) free(Abacus);
     Abacus = NULL;
     return;
@@ -52,11 +52,9 @@ int8_t abacus_check(sAbacus sA) {
         if (sA.number == 1) return 0;
         return -1;
     }
+    for (int idx = 0; idx < sA.number; idx++)
+        if (abacus_col(sA, idx) < 0) return -1;
 
-    for (int idx = 0; idx < sA.number; idx++) {
-        if (sA.pLowerRod[idx] > 4) return -1;
-        if (sA.pUpperRod[idx] > 1) return -1;
-    }
     return 0;
 }
 
@@ -100,8 +98,8 @@ char *abacus_str(sAbacus sA) {
 int32_t abacus_set(sAbacus *pA, const char *str) {
     if (strlen(str) <= 0 || strlen(str) > 255) return -1;
     pA->number = strlen(str);
-    pA->pUpperRod = u8t_init(pA->number);
-    pA->pLowerRod = u8t_init(pA->number);
+    pA->pUpperRod = (uint8_t *)realloc(pA->pUpperRod, pA->number * sizeof(uint8_t));
+    pA->pLowerRod = (uint8_t *)realloc(pA->pLowerRod, pA->number * sizeof(uint8_t));
 
     if (str[0] == '0') {  // 首位數字為 0 的情況
         if (pA->number > 1) return -1;
