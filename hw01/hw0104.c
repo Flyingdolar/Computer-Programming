@@ -35,9 +35,8 @@ typedef struct _obj_ {
 typedef struct _key_ {
     json_type type;
     char* str;
-    bool neg;
-    int64_t num;
-    int64_t frac;
+    char* num;
+    char* frac;
     bool is;
     pObj Obj;
     pKey Next;
@@ -65,9 +64,6 @@ pKey newKey() {
     pKey new = (pKey)malloc(sizeof(sKey));
     new->Next = NULL;
     new->Obj = NULL;
-    new->neg = false;
-    new->num = 0;
-    new->frac = 0;
     new->is = false;
     return new;
 }
@@ -119,21 +115,18 @@ void parseNum(char** ppStr, pKey nodeKey) {
         *ppStr += 5;
     } else {
         nodeKey->type = json_int;
-        if (**ppStr == '-') nodeKey->neg = true;
-        if (nodeKey->neg) (*ppStr)++;
-        size_t len = strspn(*ppStr, "1234567890");
-        while (len--) {
-            nodeKey->num = nodeKey->num * 10 + (**ppStr - '0');
-            (*ppStr)++;
-        }
+        // if (**ppStr == '-') nodeKey->neg = true;
+        // if (nodeKey->neg) (*ppStr)++;
+        size_t len = strspn(*ppStr, "-1234567890");
+        nodeKey->num = strndup(*ppStr, len);
+        (*ppStr) += len;
         if (**ppStr == '.') {
             nodeKey->type = json_frc;
             (*ppStr)++;
+
             len = strspn(*ppStr, "1234567890");
-            while (len--) {
-                nodeKey->frac = nodeKey->frac * 10 + (**ppStr - '0');
-                (*ppStr)++;
-            }
+            nodeKey->frac = strndup(*ppStr, len);
+            (*ppStr) += len;
         }
     }
     return;
@@ -208,12 +201,10 @@ void printValue(const pKey value, bool isArray) {
                 if (!(pNode->is)) printf("false");
                 break;
             case json_int:
-                if (pNode->neg) printf("-");
-                printf("%lld", pNode->num);
+                printf("%s", pNode->num);
                 break;
             case json_frc:
-                if (pNode->neg) printf("-");
-                printf("%lld.%lld", pNode->num, pNode->frac);
+                printf("%s.%s", pNode->num, pNode->frac);
                 break;
             case json_obj:
                 printObj(pNode->Obj);
