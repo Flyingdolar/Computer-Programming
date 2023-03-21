@@ -269,6 +269,19 @@ pKey searchKey(const pObj head, const char* keyStr) {
     return pValue;
 }
 
+void freeNode(pObj headNode) {
+    pObj hPtr = headNode, nPtr;
+    while (hPtr != NULL) {
+        nPtr = hPtr->Next;
+        if (hPtr->Data->type == json_obj)
+            freeNode(hPtr->Data->Obj);
+        free(hPtr->Data);
+        free(hPtr);
+        hPtr = nPtr;
+    }
+    return;
+}
+
 int main() {
     pObj Json = newObj();
     pKey vNode;
@@ -314,5 +327,6 @@ int main() {
         }
     } while (choice[0] == '1');
 
+    freeNode(Json);
     return 0;
 }
