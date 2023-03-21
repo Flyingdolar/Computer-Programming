@@ -10,12 +10,16 @@ typedef struct _sAbacus {
     uint8_t *pLowerRod;
 } sAbacus;
 
-int32_t abacus_set(sAbacus *ptrAbacus, char *strNumber);
+sAbacus *abacus_init(void);
 
-int32_t abacus_add(sAbacus *result, sAbacus origin, sAbacus add);
+void abacus_free(sAbacus *Abacus);
 
-int32_t abacus_del(sAbacus *result, sAbacus origin, sAbacus del);
+char *abacus_str(sAbacus sA);
 
-int32_t abacus_print(sAbacus Abacus);
+int32_t abacus_set(sAbacus *pA, const char *str);
 
-char *abacus_getNumber(sAbacus Abacus);
+int32_t abacus_add(sAbacus *res, sAbacus sA_1, sAbacus sA_2);
+
+int32_t abacus_del(sAbacus *res, sAbacus sA_1, sAbacus sA_2);
+
+int32_t abacus_print(sAbacus sA);

@@ -1,0 +1,13 @@
+# 執行檔
+*.exe
+hw0101
+hw0102
+hw0103
+hw0104
+hw0105
+test
+ex.json
+
+# VScode 衍生物
+.vscode
+test.dSYM

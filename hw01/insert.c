@@ -4,8 +4,9 @@
 #include <string.h>
 
 int32_t strinsert(char **ppResult, const char *pStr1, int32_t location, const char *pStr2) {
-    char *ptrIn = (char *)malloc((strlen(pStr1) + strlen(pStr2)) * sizeof(char));
-    *ppResult = ptrIn;
+    // if (*ppResult != NULL) free(*ppResult);
+    *ppResult = (char *)malloc((strlen(pStr1) + strlen(pStr2)) * sizeof(char));
+    char *ptrIn = *ppResult;
     while (location--) {
         *ptrIn = *pStr1;
         ptrIn++;

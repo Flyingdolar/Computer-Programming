@@ -1,0 +1,31 @@
+name: CI/CD TEST
+
+on:
+  push:
+    branches: [ develop ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Build hw01
+      run: |
+        cd hw01
+        make > build01.log 2>&1
+        gdb hw0101 -ex "run" > gdb0101.txt 2>&1
+        ./hw0101
+        gdb hw0102 -ex "run" > gdb0102.txt 2>&1
+        ./hw0102
+        gdb hw0103 -ex "run" > gdb0103.txt 2>&1
+        ./hw0103
+
+    - name: Upload artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: my-artifact
+        path: ./build/
