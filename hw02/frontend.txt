@@ -1,0 +1,157 @@
+commit ca50f77864bf03868487c0e82d4d0b4878b14636
+Author: KutsunaSubaRya <index20010928@gmail.com>
+Date:   Tue Oct 4 06:10:15 2022 +0800
+
+    chore: add vue-i18n package
+
+ package.json   |    1 +
+ pnpm-lock.yaml | 1912 ++++++++++++++++++--------------------------------------
+ 2 files changed, 603 insertions(+), 1310 deletions(-)
+
+commit 6c197754737664dd50e0f2b38c21fa086225f33e8b120821
+Merge: 537e40a3 8b120821
+Author: KutsunaSubaRya <index20010928@gmail.com>
+Date:   Mon Oct 3 16:45:41 2022 +0000
+
+    Merge branch 'docs/dev-tips' into 'main'
+    
+    docs: add development tips
+    
+    See merge request ntnu-csie-admissions/frontend!6
+
+commit 8b120821db80a1fe03416d34b85439be041a7202
+Author: Howard Guo <50100922+toto6038@users.noreply.github.com>
+Date:   Mon Oct 3 22:09:16 2022 +0800
+
+    docs: add development tips
+
+ DEV-TIPS.md | 53 +++++++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 53 insertions(+)
+
+commit 537e40a376586d2d4d499fb1ae30b23426a22533
+Merge: c07f71a3 c9c4e3de
+Author: KutsunaSubaRya <index20010928@gmail.com>
+Date:   Mon Oct 3 13:17:46 2022 +0000
+
+    Merge branch 'fix/readme' into 'main'
+    
+    Fix/readme
+    
+    See merge request ntnu-csie-admissions/frontend!5
+
+commit c9c4e3de510bfc4b4c441662ef30905bb7ee2da7
+Author: KutsunaSubaRya <index20010928@gmail.com>
+Date:   Mon Oct 3 13:17:46 2022 +0000
+
+    Fix/readme
+
+ README.md | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit c07f71a33c0c6799d49387b22f59129e7fdf7e7f
+Merge: 48664859 1b9e0e20
+Author: KutsunaSubaRya <index20010928@gmail.com>
+Date:   Mon Oct 3 08:25:51 2022 +0000
+
+    Merge branch 'fix/lint-failed' into 'main'
+    
+    fix(lint): fixed eslint rule to ignore component.d.ts
+    
+    See merge request ntnu-csie-admissions/frontend!3
+
+commit 1b9e0e200d1c9a6fdd5cdac496b3b219b66774ec
+Author: KutsunaSubaRya <index20010928@gmail.com>
+Date:   Mon Oct 3 16:22:42 2022 +0800
+
+    fix(lint): fixed eslint rule to ignore component.d.ts
+
+ .eslintrc.cjs | 1 +
+ README.md     | 2 +-
+ 2 files changed, 2 insertions(+), 1 deletion(-)
+
+commit 4866485946ae2e5c68f905c2cd198a9cbc0cbfb1
+Merge: 78b61f85 f4c2542c
+Author: Birkhoff Lee <admin@birkhoff.me>
+Date:   Mon Oct 3 04:05:59 2022 +0000
+
+    Merge branch 'gitlab-ci' into 'main'
+    
+    chore(ci): run eslint check
+    
+    See merge request ntnu-csie-admissions/frontend!2
+
+commit f4c2542ce99163a06e0116405f8116646978563d
+Author: Birkhoff Lee <admin@birkhoff.me>
+Date:   Mon Oct 3 04:05:59 2022 +0000
+
+    chore(ci): run eslint check
+
+ .gitlab-ci.yml | 25 +++++++++++++++----------
+ 1 file changed, 15 insertions(+), 10 deletions(-)
+
+commit 78b61f850b8ac581f450186f43040d61fdf7e131
+Merge: 6b70111b 20421a42
+Author: Birkhoff Lee <admin@birkhoff.me>
+Date:   Mon Oct 3 02:55:49 2022 +0000
+
+    Merge branch 'first-codebase' into 'main'
+    
+    feat(codebase): add initial codebase
+    
+    See merge request ntnu-csie-admissions/frontend!1
+
+commit 20421a4225bc673650261c14302a6794b6d2ae33
+Author: KutsunaSubaRya <index20010928@gmail.com>
+Date:   Mon Oct 3 10:41:05 2022 +0800
+
+    feat(codebase): add initial codebase
+
+ .eslintignore               |   12 +
+ .eslintrc.cjs               |   43 +
+ .gitignore                  |   24 +
+ .gitlab-ci.yml              |    4 +-
+ .prettierignore             |    2 +
+ .prettierrc.ts              |   18 +
+ .vscode/extensions.json     |    3 +
+ README.md                   |  106 +-
+ components.d.ts             |   15 +
+ index.html                  |   13 +
+ package.json                |   40 +
+ pnpm-lock.yaml              | 2591 +++++++++++++++++++++++++++++++++++++++++++
+ public/vite.svg             |    1 +
+ src/App.vue                 |   16 +
+ src/assets/CSIE.png         |  Bin 0 -> 4209 bytes
+ src/assets/CSIE_en.png      |  Bin 0 -> 2225 bytes
+ src/assets/CSIE_tw.png      |  Bin 0 -> 1902 bytes
+ src/assets/NTNU_LOGO.png    |  Bin 0 -> 72661 bytes
+ src/assets/vue.svg          |    1 +
+ src/components/NavBar.vue   |   83 ++
+ src/components/SideBar.vue  |   21 +
+ src/main.ts                 |   25 +
+ src/router/index.ts         |   21 +
+ src/styles/style.css        |   81 ++
+ src/views/home/HomeView.vue |   39 +
+ src/vite-env.d.ts           |    7 +
+ tsconfig.json               |   21 +
+ tsconfig.node.json          |    9 +
+ vite.config.ts              |   24 +
+ windi.config.ts             |   17 +
+ 30 files changed, 3149 insertions(+), 88 deletions(-)
+
+commit 6b70111b5df7f44c94336f38d4318b9feb36a4fc
+Author: Birkhoff Lee <admin@birkhoff.me>
+Date:   Tue Sep 6 14:46:25 2022 +0000
+
+    Configure SAST in `.gitlab-ci.yml`, creating this file if it does not already exist
+
+ .gitlab-ci.yml | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
+
+commit ca50f778302a49f06548ef768002d52d607c98b3
+Author: Birkhoff Lee <admin@birkhoff.me>
+Date:   Tue Sep 6 14:46:24 2022 +0000
+
+    Initial commit
+
+ README.md | 92 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 92 insertions(+)
