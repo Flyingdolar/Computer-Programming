@@ -254,7 +254,7 @@ int32_t strinsert(char **ppResult, const char *pStr1, int32_t location, const ch
     int32_t abacus_print(sAbacus Abacus)
     ```
 
-    <img src="Abacus.png" width="400"/>
+    <img src="pic/Abacus.png" width="400"/>
 
     函式功能概要
 
@@ -385,7 +385,7 @@ int32_t strinsert(char **ppResult, const char *pStr1, int32_t location, const ch
 
     **結構圖像化示例**
 
-    ![Struct](Struct.png)
+    ![Struct](pic/Struct.png)
 
     對應以下程式碼：
 
@@ -634,7 +634,7 @@ struct MagicalPotato {
 
 會像這樣顯示在你的螢幕上喔～
 
-<img src="Potatos.png" width="400"/>
+<img src="pic/Potatos.png" width="400"/>
 
 ---
 
