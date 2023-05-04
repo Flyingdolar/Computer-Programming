@@ -22,15 +22,25 @@ enum { ENCRYPT,
        OUTPUT };
 
 void printHelp() {
+    printf("\033[0;33mUsing Help Command...\033[0m\n");
+    printf("=======================\n");
     printf("HW0301 - Stream Cipher\n");
-    printf("Usage & option\n");
-    printf("\n");
-    printf("  -e, --encrypt\t\tencrypt the input file\n");
-    printf("  -d, --decrypt\t\tdecrypt the input file\n");
-    printf("  -h, --help\t\tprint this help\n");
-    printf("  -i, --input=FILE\tinput file\n");
-    printf("  -k, --key=FILE\tkey file\n");
-    printf("  -o, --output=FILE\toutput file\n");
+    printf("=======================\n");
+    printf("It is a Encrypt & Decrypt program using formula\n");
+    printf("   ∀i ∈ { 0, . . . , n−1 }, c_i = f_i ⊕ k_(i mod(m))\n");
+
+    printf("\n* Usages *\n");
+    printf("  1. \"Encrypt: %s -e -i <input_file> -k <key_file> -o <output_file>\"\n", "hw0301");
+    printf("  2. \"Decrypt: %s -d -i <input_file> -k <key_file> -o <output_file>\"\n", "hw0301");
+    printf("\n* Options *\n");
+    printf(" %s / %-10s\t | %-20s\n", "Short", "Long Opt.", "Function");
+    printf("-------------------------+-----------------------\n");
+    printf(" %3s    %-10s\t | %-20s\n", "-e", "--encrypt", "encrypt the input file");
+    printf(" %3s    %-10s\t | %-20s\n", "-d", "--decrypt", "decrypt the input file");
+    printf(" %3s    %-10s\t | %-20s\n", "-h", "--help", "print this help");
+    printf(" %3s    %-10s\t | %-20s\n", "-i", "--input=FILE", "input file");
+    printf(" %3s    %-10s\t | %-20s\n", "-k", "--key=FILE", "key file");
+    printf(" %3s    %-10s\t | %-20s\n", "-o", "--output=FILE", "output file");
     return;
 }
 
@@ -72,10 +82,16 @@ bool isInvalid(bool cmd[], char *input_file, char *output_file, char *key_file) 
     return false;
 }
 
-void enFile(char *input_file, char *output_file, char *key_file) {
+int enFile(char *input_file, char *output_file, char *key_file) {
     FILE *in = fopen(input_file, "rb");
     FILE *out = fopen(output_file, "wb");
     FILE *key = fopen(key_file, "rb");
+    if (in == NULL || out == NULL || key == NULL) {
+        printf("\033[0;31m");
+        printf("E: File not found\n");
+        printf("\033[0m");
+        return -1;
+    }
 
     uint8_t in_buf, key_buf;
     while (fread(&in_buf, sizeof(uint8_t), 1, in) == 1) {
@@ -86,13 +102,19 @@ void enFile(char *input_file, char *output_file, char *key_file) {
     }
 
     fclose(in), fclose(out), fclose(key);
-    return;
+    return 0;
 }
 
-void deFile(char *input_file, char *output_file, char *key_file) {
+int deFile(char *input_file, char *output_file, char *key_file) {
     FILE *in = fopen(input_file, "rb");
     FILE *out = fopen(output_file, "wb");
     FILE *key = fopen(key_file, "rb");
+    if (in == NULL || out == NULL || key == NULL) {
+        printf("\033[0;31m");
+        printf("E: File not found\n");
+        printf("\033[0m");
+        return -1;
+    }
 
     uint8_t in_buf, key_buf;
     while (fread(&in_buf, sizeof(uint8_t), 1, in) == 1) {
@@ -103,7 +125,7 @@ void deFile(char *input_file, char *output_file, char *key_file) {
     }
 
     fclose(in), fclose(out), fclose(key);
-    return;
+    return 0;
 }
 
 int main(const int argc, char *const argv[]) {
@@ -123,15 +145,13 @@ int main(const int argc, char *const argv[]) {
             return -1;
         }
     }
-    printf("cmd = e:%d d:%d h:%d i:%d k:%d o:%d\n", cmd[0], cmd[1], cmd[2], cmd[3], cmd[4], cmd[5]);
-    printf("input_file = %s\n", input_file);
-    printf("output_file = %s\n", output_file);
-    printf("key_file = %s\n", key_file);
     if (cmd[HELP]) return 0;
     if (isInvalid(cmd, input_file, output_file, key_file))
         return -1;
 
-    if (cmd[ENCRYPT]) enFile(input_file, output_file, key_file);
-    if (cmd[DECRYPT]) deFile(input_file, output_file, key_file);
+    if (cmd[ENCRYPT])
+        return enFile(input_file, output_file, key_file);
+    if (cmd[DECRYPT])
+        return deFile(input_file, output_file, key_file);
     return 0;
 }
