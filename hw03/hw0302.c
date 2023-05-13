@@ -8,14 +8,18 @@
 
 #include "zip.h"
 
+#define FOREVER while (1)
+
 struct option long_options[] = {
     {"ascend", 0, NULL, 'a'},
     {"descend", 0, NULL, 'd'},
     {NULL, 0, NULL, 0}};
 
-enum { ASCEND,
-       DESCEND,
-       HELP };
+typedef enum _opts_ {
+    ASCEND,
+    DESCEND,
+    HELP
+} opts;
 
 void printHelp() {
     printf("HW0302 - ZIP File Viewer\n");
@@ -28,63 +32,33 @@ void printHelp() {
 }
 
 bool isInvalid(bool cmd[], char *input_file) {
-    printf("\033[0;31m");
     if (cmd[ASCEND] && cmd[DESCEND]) {
-        printf("E: Please specify -a or -d\n");
+        PRINT_E("Please specify only one option: -a or -d");
         return true;
     }
     if (input_file == NULL) {
-        printf("E: Please specify input file\n");
+        PRINT_E("Please specify input file");
         return true;
     }
-    printf("\033[0m");
-    return false;
-}
-
-bool isZIP(char *fName, FILE *fp) {
-    uint32_t signature = 0;
-    fread(&signature, sizeof(uint32_t), 1, fp);
-    rewind(fp);
-    // if (&fName[strlen(fName) - 3] != "zip") return false;
-    if (signature == 0x04034b50) return true;
     return false;
 }
 
 void printHead(zipHead *head) {
-    printf("Compression method: %d\n", head->compression);
-    printf("Last modified date: %d\n", head->mod_date);
-    printf("Last modified time: %d\n", head->mod_time);
-    printf("CRC-32: %d\n", head->crc32);
-    printf("Compressed size: %d\n", head->compressed_size);
-    printf("Uncompressed size: %d\n", head->uncompressed_size);
-    printf("File name length: %d\n", head->file_name_length);
-    printf("Extra field length: %d\n\n", head->extra_field_length);
+    PRINT_D("Compression method: %d\n", head->compression);
+    PRINT_D("Last modified date: %d\n", head->mod_date);
+    PRINT_D("Last modified time: %d\n", head->mod_time);
+    PRINT_D("CRC-32: %d\n", head->crc32);
+    PRINT_D("Compressed size: %d\n", head->compressed_size);
+    PRINT_D("Uncompressed size: %d\n", head->uncompressed_size);
+    PRINT_D("File name length: %d\n", head->file_name_length);
+    PRINT_D("Extra field length: %d\n\n", head->extra_field_length);
     return;
-}
-
-char *getFileName(FILE **fp) {
-    char *file_name = NULL;
-    zipHead head;
-    uint16_t fileLen, extraLen;
-
-    if (feof(*fp)) return NULL;
-    fread(&head, sizeof(zipHead), 1, *fp);
-
-    file_name = (char *)malloc(head.file_name_length + 1);
-    fread(file_name, head.file_name_length, 1, *fp);
-    file_name[head.file_name_length] = '\0';
-    fseek(*fp, head.extra_field_length, SEEK_CUR);
-    fseek(*fp, head.compressed_size, SEEK_CUR);
-
-    printf("Name is %s\n", file_name);
-    printHead(&head);
-
-    return file_name;
 }
 
 int main(const int argc, char *const argv[]) {
     bool cmd[3] = {false};
     FILE *fp = NULL;
+    pFile fTree = init_node(THEAD);
     int opt;
     char *input_file = NULL, *file_name = NULL;
 
@@ -104,20 +78,18 @@ int main(const int argc, char *const argv[]) {
 
     fp = fopen(input_file, "rb");
     if (fp == NULL) {
-        printf("E: Cannot open file: %s\n", input_file);
+        PRINT_E("Cannot open file: %s", input_file);
         return -1;
     }
     if (isZIP(input_file, fp) == false) {
-        printf("E: Not a ZIP file: %s\n", input_file);
+        PRINT_E("Not a ZIP file: %s", input_file);
         return -1;
     }
 
-    int x = 0;
-    while (x < 10) {
+    FOREVER {
         file_name = getFileName(&fp);
         if (file_name == NULL) break;
         free(file_name);
-        x += 1;
     }
 
     return 0;
