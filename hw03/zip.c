@@ -73,7 +73,6 @@ pFile createTree(FILE *fp) {
         insert_node(ptr, node), ptr->len++, ptr = root;
         freePath(path, pathLen);
     }
-    setIndent(root);
     return root;
 }
 
@@ -92,7 +91,11 @@ void printTree(pFile root) {
     while (ptr != NULL) {
         if (ptr->Prev != root) printf("%s", ptr->inStr);
         printf("+-- %s", ptr->name);
-        if (ptr->type == TDIR) printf("/ --"), printTree(ptr->Child);
+        if (ptr->type == TDIR) {
+            printf("/");
+            if (ptr->Child->len > 0) printf(" --"), printTree(ptr->Child);
+            if (ptr->Child->len == 0) printf("\n");
+        }
         if (ptr->type == TFILE) printf("\n");
         if (ptr->Next != NULL) printf("%s|\n", ptr->inStr);
         ptr = ptr->Next;

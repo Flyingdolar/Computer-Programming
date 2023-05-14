@@ -53,6 +53,7 @@ char *getFileName(FILE **fp);
 pFile createTree(FILE *fp);
 void sortTree(pFile root, int32_t (*cond)(pFile, pFile));
 void printTree(pFile root);
+void setIndent(pFile root);
 
 // String function
 char **splitPath(char *path, int *len);
