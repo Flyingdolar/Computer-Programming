@@ -38,8 +38,8 @@ typedef enum _file_type_ {
 
 typedef struct _file_ *pFile;
 typedef struct _file_ {
-    char *name;
-    int len, layer, indt;
+    char *name, inStr[1000];
+    int len;
     fileType type;
     pFile Prev, Next;
     pFile Parent, Child;

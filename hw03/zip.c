@@ -33,6 +33,23 @@ char *getFileName(FILE **fp) {
 
 // Tree Functions
 
+void setIndent(pFile root) {
+    pFile ptr = root->Next;
+    while (ptr != NULL) {
+        strcpy(ptr->inStr, root->inStr);
+        if (ptr->type == TDIR) {
+            strcpy(ptr->Child->inStr, ptr->inStr);
+            if (ptr->Next) strcat(ptr->Child->inStr, "|");
+            if (ptr->Next == NULL) strcat(ptr->Child->inStr, " ");
+            for (size_t idx = 0; idx < (strlen(ptr->name) + 7); idx++)
+                strcat(ptr->Child->inStr, " ");
+            setIndent(ptr->Child);
+        }
+        ptr = ptr->Next;
+    }
+    return;
+}
+
 pFile createTree(FILE *fp) {
     pFile root = init_node(THEAD);
     pFile ptr = root;
@@ -47,26 +64,16 @@ pFile createTree(FILE *fp) {
             node->Child->Parent = node;
         }
         path = splitPath(fullPath, &pathLen);
-        // Print path
-        // for (int idx = 0; idx < pathLen; idx++) PRINT_D(" <%s> ", path[idx]);
-        // PRINT_D("\n");
         node->name = strdup(path[pathLen - 1]);
-        node->layer = pathLen - 1;
         for (int idx = 0; idx < pathLen - 1; idx++) {
             ptr = search_node(ptr, path[idx]);
             if (ptr == NULL) return NULL;
             ptr = ptr->Child;
         }
-        insert_node(ptr, node), ptr->len++;
-        node->indt = ptr->indt;
-        if (node->type == TDIR) {
-            node->Child->layer = pathLen;
-            node->Child->indt = node->indt + 8 + strlen(node->name);
-        }
-        ptr = root;
+        insert_node(ptr, node), ptr->len++, ptr = root;
         freePath(path, pathLen);
     }
-
+    setIndent(root);
     return root;
 }
 
@@ -83,16 +90,11 @@ void sortTree(pFile root, int32_t (*cond)(pFile, pFile)) {
 void printTree(pFile root) {
     pFile ptr = root->Next;
     while (ptr != NULL) {
-        if (ptr->Prev != root)
-            for (int idx = 0; idx < ptr->indt; idx++) printf(" ");
+        if (ptr->Prev != root) printf("%s", ptr->inStr);
         printf("+-- %s", ptr->name);
-        if (ptr->type == TDIR) printf("/ --");
-        if (ptr->type == TDIR) printTree(ptr->Child);
-        printf("\n");
-        if (ptr->Next != NULL) {
-            for (int idx = 0; idx < ptr->indt; idx++) printf(" ");
-            printf("|\n");
-        }
+        if (ptr->type == TDIR) printf("/ --"), printTree(ptr->Child);
+        if (ptr->type == TFILE) printf("\n");
+        if (ptr->Next != NULL) printf("%s|\n", ptr->inStr);
         ptr = ptr->Next;
     }
     return;
@@ -102,15 +104,15 @@ void printTree(pFile root) {
 
 char **splitPath(char *path, int *len) {
     char **ret = (char **)malloc(sizeof(char *));
-    char *str = strdup(path);
+    char str[1000], *ptr;
 
-    *len = 0;
-    *ret = strtok(str, "/"), (*len)++;
-    while ((str = strtok(NULL, "/")) != NULL) {
+    *len = 0, strcpy(str, path);
+    *ret = strdup(strtok(str, "/")), (*len)++;
+    while ((ptr = strtok(NULL, "/")) != NULL) {
         ret = (char **)realloc(ret, sizeof(char *) * ((*len) + 1));
-        ret[*len] = str, (*len)++;
+        ret[*len] = strdup(ptr), (*len)++;
     }
-
+    free(path);
     return ret;
 }
 
@@ -126,8 +128,8 @@ void freePath(char **path, int len) {
 
 pFile init_node(fileType type) {
     pFile ret = (pFile)malloc(sizeof(sFile));
-    ret->name = NULL, ret->type = type;
-    ret->len = 0, ret->layer = 0, ret->indt = 0;
+    ret->name = NULL, ret->inStr[0] = '\0';
+    ret->len = 0, ret->type = type;
     ret->Prev = NULL, ret->Next = NULL;
     ret->Parent = NULL, ret->Child = NULL;
     return ret;
