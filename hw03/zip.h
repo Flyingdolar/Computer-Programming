@@ -39,15 +39,24 @@ typedef enum _file_type_ {
 typedef struct _file_ *pFile;
 typedef struct _file_ {
     char *name;
-    int len;
+    int len, layer, indt;
     fileType type;
-    pFile Next;
-    pFile Child;
+    pFile Prev, Next;
+    pFile Parent, Child;
 } sFile;
 
 // ZIP function
 bool isZIP(char *fName, FILE *fp);
 char *getFileName(FILE **fp);
+
+// Tree function
+pFile createTree(FILE *fp);
+void sortTree(pFile root, int32_t (*cond)(pFile, pFile));
+void printTree(pFile root);
+
+// String function
+char **splitPath(char *path, int *len);
+void freePath(char **path, int len);
 
 // Node function
 pFile init_node(fileType type);
@@ -57,3 +66,6 @@ pFile search_node(pFile head, char *name);
 
 // Sort function
 void mgSort(pFile Arr, int32_t (*cond)(pFile, pFile));
+int32_t cmpAsc(pFile a, pFile b);
+int32_t cmpDsc(pFile a, pFile b);
+int32_t cmpType(pFile a, pFile b);

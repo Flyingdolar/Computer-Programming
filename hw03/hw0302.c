@@ -58,9 +58,9 @@ void printHead(zipHead *head) {
 int main(const int argc, char *const argv[]) {
     bool cmd[3] = {false};
     FILE *fp = NULL;
-    pFile fTree = init_node(THEAD);
+    pFile fTree;
     int opt;
-    char *input_file = NULL, *file_name = NULL;
+    char *input_file = NULL;
 
     while ((opt = getopt_long(argc, argv, ":a:d:h", long_options, NULL)) != -1) {
         if (input_file == NULL && optarg != NULL) input_file = optarg;
@@ -86,11 +86,13 @@ int main(const int argc, char *const argv[]) {
         return -1;
     }
 
-    FOREVER {
-        file_name = getFileName(&fp);
-        if (file_name == NULL) break;
-        free(file_name);
-    }
+    fTree = createTree(fp);
+    // sortTree(fTree, cmpType);
+    // if (cmd[ASCEND]) sortTree(fTree, cmpAsc);
+    // if (cmd[DESCEND]) sortTree(fTree, cmpDsc);
+    printTree(fTree);
+    free_node(&fTree);
+    fclose(fp);
 
     return 0;
 }
