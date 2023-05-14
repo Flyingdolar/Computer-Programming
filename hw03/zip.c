@@ -190,31 +190,39 @@ void mgSort(pFile Arr, int32_t (*cond)(pFile, pFile)) {
     pFile pArr = Arr, pL = arr_L, pR = arr_R;
 
     arr_L->len = len / 2, arr_R->len = len - arr_L->len;
-    arr_L->Next = Arr->Next, arr_R->Next = Arr->Next;
+    arr_L->Next = Arr->Next, arr_L->Next->Prev = arr_L;
     for (size_t idx = 0; idx < (size_t)arr_L->len; idx++)
-        arr_R->Next = arr_R->Next->Next;
+        pArr = pArr->Next;
+    arr_R->Next = pArr->Next, pArr->Next = NULL;
+    arr_R->Next->Prev = arr_R;
 
-    mgSort(arr_L, cond);
-    mgSort(arr_R, cond);
-    pL = arr_L->Next, pR = arr_R->Next;
+    mgSort(arr_L, cond), mgSort(arr_R, cond);
+    pArr = Arr, pL = arr_L->Next, pR = arr_R->Next;
 
     while (pL != NULL || pR != NULL) {
         if (pL && pR) {
             if (cond(pL, pR)) {
-                pArr->Next = pL;
+                pArr->Next = pL, pArr->Next->Prev = pArr;
                 pArr = pArr->Next, pL = pL->Next;
+                pArr->Next = NULL;
+                if (pL) pL->Prev = NULL;
             } else {
-                pArr->Next = pR;
+                pArr->Next = pR, pArr->Next->Prev = pArr;
                 pArr = pArr->Next, pR = pR->Next;
+                pArr->Next = NULL;
+                if (pR) pR->Prev = NULL;
             }
         } else if (pL) {
             pArr->Next = pL;
+            pL->Prev = pArr;
             break;
         } else if (pR) {
             pArr->Next = pR;
+            pR->Prev = pArr;
             break;
         }
     }
+    arr_L->Next = NULL, arr_R->Next = NULL;
     free_node(&arr_L), free_node(&arr_R);
     return;
 }

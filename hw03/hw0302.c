@@ -87,7 +87,7 @@ int main(const int argc, char *const argv[]) {
     }
 
     fTree = createTree(fp);
-    // sortTree(fTree, cmpType);
+    sortTree(fTree, cmpType);
     // if (cmd[ASCEND]) sortTree(fTree, cmpAsc);
     // if (cmd[DESCEND]) sortTree(fTree, cmpDsc);
     printTree(fTree);
