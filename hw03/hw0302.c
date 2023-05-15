@@ -8,8 +8,6 @@
 
 #include "zip.h"
 
-#define FOREVER while (1)
-
 struct option long_options[] = {
     {"ascend", 0, NULL, 'a'},
     {"descend", 0, NULL, 'd'},
@@ -41,18 +39,6 @@ bool isInvalid(bool cmd[], char *input_file) {
         return true;
     }
     return false;
-}
-
-void printHead(zipHead *head) {
-    PRINT_D("Compression method: %d\n", head->compression);
-    PRINT_D("Last modified date: %d\n", head->mod_date);
-    PRINT_D("Last modified time: %d\n", head->mod_time);
-    PRINT_D("CRC-32: %d\n", head->crc32);
-    PRINT_D("Compressed size: %d\n", head->compressed_size);
-    PRINT_D("Uncompressed size: %d\n", head->uncompressed_size);
-    PRINT_D("File name length: %d\n", head->file_name_length);
-    PRINT_D("Extra field length: %d\n\n", head->extra_field_length);
-    return;
 }
 
 int main(const int argc, char *const argv[]) {
