@@ -1,5 +1,4 @@
-# 執行檔
-*.exe
+# Homework
 hw0101
 hw0102
 hw0103
@@ -10,8 +9,17 @@ hw0202
 hw0203
 hw0204
 hw0205
+hw0301
+hw0302
+hw0303
+hw0304
+hw0305
+
+# 執行檔
+*.exe
+*.out
 test
-ex.json
+out
 
 # VScode 衍生物
 .vscode
