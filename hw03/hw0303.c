@@ -113,7 +113,7 @@ int main(int argc, char *argv[]) {
     if (pict == NULL) return -1;
     fclose(fb);
 
-    drawMosaic(pict, header, pos);
+    if (drawMosaic(pict, header, pos) == -1) return -1;
 
     fb = fopen(output_file, "wb");
     if (fb == NULL) {
