@@ -72,13 +72,16 @@ int main(const int argc, char *const argv[]) {
         return -1;
     }
 
+    // 抓取檔案名稱，並存成一棵樹（內含有解析 Zip 的功能函式）
     fTree = createTree(fp);
-    // sortTree(fTree, cmpType);
-    // if (cmd[ASCEND])
+    // 依據指令排序樹（ cmpAsc 是正序排列的比較方式、 cmpDsc 是反序排列的比較方式）
     sortTree(fTree, cmpAsc);
     if (cmd[DESCEND]) sortTree(fTree, cmpDsc);
+    // 設定樹狀結構的縮排
     setIndent(fTree);
+    // 印出樹狀結構
     printTree(fTree);
+    // 釋放樹狀結構的記憶體
     free_node(&fTree);
     fclose(fp);
 
