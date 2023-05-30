@@ -109,7 +109,7 @@ char *readFile(char *file) {
     }
     fseek(fp, 0, SEEK_END), fileLen = ftell(fp) + 1, fseek(fp, 0, SEEK_SET);
     str = malloc(fileLen * sizeof(char));
-    fread(str, 1, ftell(fp), fp), str[fileLen - 1] = '\0';
+    fread(str, 1, fileLen - 1, fp), str[fileLen - 1] = '\0';
     fclose(fp);
     return str;
 }
@@ -127,7 +127,7 @@ int writeStockInfo(char *log, cJSON *objList) {
     FILE *fLog = fopen(log, "r");
     cJSON *obj = cJSON_CreateObject(), *dataList = cJSON_CreateArray(), *data;
     char date[100], tmp[100];
-    double open, high, low, close, min = 0, max = 0;
+    double open, high, low, close, adjClose, min = 0, max = 0;
     int volume, count = 0;
 
     if (fLog == NULL) {
@@ -141,6 +141,7 @@ int writeStockInfo(char *log, cJSON *objList) {
         fgets(tmp, sizeof(tmp), fLog), high = atof(tmp);
         fgets(tmp, sizeof(tmp), fLog), low = atof(tmp);
         fgets(tmp, sizeof(tmp), fLog), close = atof(tmp);
+        fgets(tmp, sizeof(tmp), fLog), adjClose = atof(tmp);
         fgets(tmp, sizeof(tmp), fLog), volume = atoi(tmp);
         if (feof(fLog)) break;
         if (min > low || min == 0) min = low;
@@ -218,7 +219,7 @@ int main(int argc, char *argv[]) {
     char stock[100], *file, *stDate, *edDate;
     bool cmd[4] = {false};
     time_t stTime, edTime;
-    cJSON *query, *result;
+    cJSON *query, *result, *qElement;
     int opt;
 
     while ((opt = getopt_long(argc, argv, "s:i:o:h", long_options, NULL)) != -1) {
@@ -237,24 +238,20 @@ int main(int argc, char *argv[]) {
     }
     if (cmd[HELP]) return 0;
     if (isInvalid(cmd, inFile, outFile, stock)) return -1;
-    // Parse the input JSON file
-    FILE *fp = fopen(inFile, "r");
-    if (fp == NULL) {
-        PRINTE("Cannot open file: %s", inFile);
-        return -1;
-    }
     file = readFile(inFile);
     if (file == NULL) return -1;
 
     query = cJSON_Parse(file);
     result = cJSON_CreateArray();
-    while (query != NULL) {
-        stDate = cJSON_GetObjectItem(query, "startDate")->valuestring;
-        edDate = cJSON_GetObjectItem(query, "endDate")->valuestring;
+    for (int idx = 0; idx < cJSON_GetArraySize(query); ++idx) {
+        qElement = cJSON_GetArrayItem(query, idx);
+        stDate = cJSON_GetObjectItem(qElement, "start")->valuestring;
+        edDate = cJSON_GetObjectItem(qElement, "end")->valuestring;
         stTime = strToTime(stDate), edTime = strToTime(edDate);
         getStockInfo(stock, stTime, edTime, tmpFile);
         writeStockInfo(tmpFile, result);
-        query = query->next;
+        system("rm tmp.txt");
+        qElement = qElement->next;
     }
     if (writeFile(outFile, result) != 0) return -1;
     return 0;
