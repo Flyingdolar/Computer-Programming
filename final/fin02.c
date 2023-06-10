@@ -6,7 +6,6 @@
 #include <string.h>
 #include <unistd.h>
 
-#include "bmp.h"
 #include "color.h"
 #define PRINTE(...) printf("\033[0;31mE: "), printf(__VA_ARGS__), printf("\033[0m\n")
 

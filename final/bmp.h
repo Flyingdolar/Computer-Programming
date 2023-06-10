@@ -37,8 +37,11 @@ typedef struct _pos_ {
 } sPos;
 
 // Array function
-sbPict **initArr(int w, int h);
+sbPict **initArr(int h, int w);
 void freeArr(sbPict **arr, int h);
+
+// Initialize bmp header
+sbHead initHead(int h, int w);
 
 // Transform function
 sbPict **BMPtoArr(FILE *bmp, sbHead *bmpHead);

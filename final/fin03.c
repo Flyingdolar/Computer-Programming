@@ -6,15 +6,43 @@
 #include <string.h>
 #include <unistd.h>
 
-#include "bmp.h"
-#include "color.h"
-#define PRINTE(...) printf("\033[0;31mE: "), printf(__VA_ARGS__), printf("\033[0m\n")
+#include "linuxlist.h"
+#include "schedule.h"
 
-typedef enum _optCmd_ {
-    INPUT,
-    HELP
-} optCmd;
+int main(void) {
+    LIST_HEAD(jobList);
+    LIST_HEAD(schedJobList);
+    struct list_head *pNode;
+    sJob *pJob;
+    sSchedJob *pSchedJob;
+    int ret;
 
-int main(int argc, char *argv[]) {
+    for (int idx = 0; idx < 5; idx++) {
+        pJob = (sJob *)malloc(sizeof(sJob));
+        pJob->id = idx;
+        pJob->arrival = rand() % 10;
+        pJob->duration = rand() % 10;
+        add_job(&jobList, pJob);
+    }
+
+    ret = schedule(&jobList, &schedJobList);
+    if (ret != 0) {
+        printf("schedule() returned %d\n", ret);
+        return -1;
+    }
+
+    // print job list
+    printf("job list:\n");
+    list_for_each(pNode, &jobList) {
+        pJob = list_entry(pNode, sJob, list);
+        printf("id: %u, arrival: %u, duration: %u\n", pJob->id, pJob->arrival, pJob->duration);
+    }
+
+    // print scheduled job list
+    printf("scheduled job list:\n");
+    list_for_each(pNode, &schedJobList) {
+        pSchedJob = list_entry(pNode, sSchedJob, list);
+        printf("id: %u, start: %u, stop: %u\n", pSchedJob->id, pSchedJob->start, pSchedJob->stop);
+    }
     return 0;
 }
