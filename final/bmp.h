@@ -41,6 +41,7 @@ sbPict **initArr(int h, int w);
 void freeArr(sbPict **arr, int h);
 
 // Initialize bmp header
+void printHead(sbHead head);
 sbHead initHead(int h, int w);
 
 // Transform function
