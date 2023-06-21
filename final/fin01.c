@@ -75,14 +75,24 @@ void setWhite(sbPict **arr, int h, int w) {
 }
 
 void drawSquare(sbPict **arr, int posX, int posY, int lenX, int lenY) {
-    for (int hdx = posY; hdx < posY + lenY; hdx++)
-        for (int wdx = posX; wdx < posX + lenX; wdx++) arr[hdx][wdx] = (sbPict){0, 0, 0};
-
+    // Draw outline of the square
+    for (int hdx = posY; hdx < posY + lenY; hdx++) {
+        arr[hdx][posX] = (sbPict){0, 0, 0};
+        arr[hdx][posX + lenX - 1] = (sbPict){0, 0, 0};
+    }
+    for (int wdx = posX; wdx < posX + lenX; wdx++) {
+        arr[posY][wdx] = (sbPict){0, 0, 0};
+        arr[posY + lenY - 1][wdx] = (sbPict){0, 0, 0};
+    }
     return;
 }
 
 int gRate(int len) {
     return (int)len * (1 + sqrt(5)) / 2;
+}
+
+int gNextRate(int len) {
+    return (int)len / ((1 + sqrt(5)) / 2);
 }
 
 int drawGoldenRatio(int len, int layer, char *fileName) {
@@ -96,10 +106,10 @@ int drawGoldenRatio(int len, int layer, char *fileName) {
         return -1;
     }
     setWhite(bmpPict, height, width);
-    drawSquare(bmpPict, 10, 10, 100, 100);
-
-    while (layer--) {
-    }
+    drawSquare(bmpPict, 1, 1, height - 1, width - 1);
+    // if (layer == 1) {
+    //     drawSquare(bmpPict, 0, 0, height, height);
+    // }
 
     if (ArrtoBMP(&fp, bmpPict, bmpHead)) {
         PRINTE("Write file failed");
@@ -125,6 +135,7 @@ int main(int argc, char *argv[]) {
             return -1;
         }
     }
+
     if (isInvalid(cmd, lenA, layerN, output)) return -1;
     if (!cmd[OUTPUT]) output = "output.bmp";
     if (drawGoldenRatio(lenA, layerN, output)) {
