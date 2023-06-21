@@ -14,6 +14,24 @@ void freeArr(sbPict **arr, int h) {
     free(arr);
 }
 
+void printHead(sbHead head) {
+    printf("bm: %c%c\n", head.bm[0], head.bm[1]);
+    printf("size: %u\n", head.size);
+    printf("off: %u\n", head.off);
+    printf("bSize: %u\n", head.bSize);
+    printf("w: %u\n", head.w);
+    printf("h: %u\n", head.h);
+    printf("pl: %u\n", head.pl);
+    printf("bpp: %u\n", head.bpp);
+    printf("cpress: %u\n", head.cpress);
+    printf("bImgSize: %u\n", head.bImgSize);
+    printf("Xres: %u\n", head.Xres);
+    printf("Yres: %u\n", head.Yres);
+    printf("used: %u\n", head.used);
+    printf("impt: %u\n", head.impt);
+    return;
+}
+
 sbHead initHead(int h, int w) {
     sbHead bmpHead;
     memset(&bmpHead, 0, sizeof(bmpHead));
@@ -26,7 +44,7 @@ sbHead initHead(int h, int w) {
     bmpHead.bpp = 24;
     bmpHead.cpress = 0;
     bmpHead.bImgSize = 3 * w * h;
-    bmpHead.Xres = 0, bmpHead.Yres = 0;
+    bmpHead.Xres = 1, bmpHead.Yres = 1;
     bmpHead.used = 0, bmpHead.impt = 0;
     return bmpHead;
 }
